@@ -14,6 +14,10 @@ return {
         "hrsh7th/nvim-cmp",
         config = function()
             local cmp = require("cmp")
+            -- my computer is to weak for it
+            -- require("plugins.cmp-local-llm.CmpLocalLLMHandler").setup({
+            --     timeout = 60,
+            -- })
             require("luasnip.loaders.from_vscode").lazy_load()
             cmp.setup({
                 snippet = {
@@ -34,11 +38,15 @@ return {
                     ["<CR>"] = cmp.mapping.confirm({ select = true }),
                 }),
                 sources = cmp.config.sources({
+                    -- { name = "local-llm" },
                     { name = "nvim_lsp" },
                     { name = "luasnip" }, -- For luasnip users.
                 }, {
                     { name = "buffer" },
                 }),
+                experimental = {
+                    -- ghost_text = true,
+                },
             })
 
             cmp.setup.filetype({ "sql" }, {
