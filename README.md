@@ -81,7 +81,7 @@ dotnet tool install --global coverlet.console
 Тепер у тебе є:
 
 - Neovim як IDE
-- `csharp-ls` для C# (LSP)
+- `omnisharp` для C# (LSP)
 - `netcoredbg` для дебагу
 - `neotest` для тестів
 - `coverlet` для покриття тестів
