@@ -64,18 +64,7 @@ scoop install lazygit
 
 ---
 
-## 6. Замість OmniSharp — використовуємо `csharp-ls`
-
-```bash
-dotnet new tool-manifest      # тільки один раз на проект або global tools папку
-dotnet tool install csharp-ls
-```
-
-> Або глобально:
-
-```bash
-dotnet tool install --global csharp-ls
-```
+## 6. OmniSharp (встановлений через Mason)
 
 ---
 
