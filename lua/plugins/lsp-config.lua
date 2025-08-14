@@ -40,12 +40,12 @@ return {
             })
 
             lspconfig.omnisharp.setup({
-                cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+                cmd = { "OmniSharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
                 enable_roslyn_analyzers = true,
                 organize_imports_on_format = true,
                 enable_import_completion = true,
                 enable_ms_build_load_projects_on_demand = false,
-                -- root_dir = lspconfig.util.root_pattern("*.csproj", "*.sln"),
+                root_dir = lspconfig.util.root_pattern("*.csproj", "*.sln"),
                 settings = {
                     RoslynExtensionsOptions = {
                         enableDecompilationSupport = true,
@@ -70,7 +70,7 @@ return {
                 signs = false,
             })
 
-            vim.keymap.set("i", "<C-S>", vim.lsp.buf.signature_help, { desc = "Get Overloads" })
+            -- vim.keymap.set("i", "<C-S>", vim.lsp.buf.signature_help, { desc = "Get Overloads" })
 
             vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show Hover" })
             vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Actions" })
@@ -103,6 +103,7 @@ return {
     },
     {
         "ray-x/lsp_signature.nvim",
+        enabled = true,
         event = "InsertEnter",
         opts = {
             bind = true,
