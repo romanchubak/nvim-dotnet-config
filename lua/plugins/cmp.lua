@@ -8,6 +8,9 @@ return {
         dependencies = {
             "saadparwaiz1/cmp_luasnip",
             "rafamadriz/friendly-snippets",
+
+	{ "hrsh7th/cmp-path" },
+	{ "hrsh7th/cmp-cmdline" },
         },
     },
     {
@@ -43,6 +46,7 @@ return {
                     { name = "luasnip" }, -- For luasnip users.
                 }, {
                     { name = "buffer" },
+                    { name = "path"},
                 }),
                 experimental = {
                     -- ghost_text = true,
