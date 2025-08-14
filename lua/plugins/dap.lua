@@ -38,6 +38,7 @@ return {
                     print(pathToDll)
                     return pathToDll
                 end,
+                cwd = '${workspaceFolder}/Something',
                 exceptionBreakpoints = {},
                 console = "integratedTerminal",
             }

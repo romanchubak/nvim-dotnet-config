@@ -15,3 +15,4 @@ vim.opt.cursorline = true         -- Enable highlighting of the current line
 vim.opt.list = true                -- Show some invisible characters (tabs...
 
 vim.opt.confirm = true            -- Confirm to save changes before exiting modified buffer
+vim.opt.ignorecase = true

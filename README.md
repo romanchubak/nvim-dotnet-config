@@ -87,6 +87,22 @@ dotnet tool install --global coverlet.console
 
 ---
 
+## 8. Модний павершел: `pwsh.exe`
+
+```bash
+winget install --id Microsoft.Powershell --source winget
+```
+
+---
+
+## 9. Zig для компіляції TreeSitter: `Zig`
+
+```bash
+scoop intall zig
+```
+
+---
+
 ## ✅ Готово!
 
 Тепер у тебе є:
