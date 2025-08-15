@@ -78,7 +78,7 @@ local search_projects = function(opts)
 end
 
 M.setup = function()
-	vim.keymap.set("n", "<leader>ss", search_projects)
+	vim.keymap.set("n", "<leader>sp", search_projects)
 end
 
 M.SelectProject = function()

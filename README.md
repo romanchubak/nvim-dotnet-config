@@ -66,6 +66,9 @@ scoop install lazygit
 
 ## 6. OmniSharp (встановлений через Mason)
 
+Треба також встановити MSBuild через Visual Stodio Installer
+Тільки .NET SDK
+
 ---
 
 ## 7. Покриття коду: `coverlet.console`
@@ -86,8 +89,17 @@ winget install --id Microsoft.Powershell --source winget
 
 ## 9. Zig для компіляції TreeSitter: `Zig`
 
-```bash
+```powershell
 scoop intall zig
+```
+
+---
+
+
+## 10. sqlcmd для nvim-dadbod: `sqlcmd`
+
+```powershell 
+winget install sqlcmd
 ```
 
 ---
