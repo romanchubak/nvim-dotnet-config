@@ -1,116 +1,110 @@
 return {
-	{
-		"williamboman/mason.nvim",
-		config = function()
-			require("mason").setup()
-		end,
-	},
-	{ "simrat39/symbols-outline.nvim" },
-	{ "Hoffs/omnisharp-extended-lsp.nvim" },
-	{
-		"williamboman/mason-lspconfig.nvim",
-		config = function()
-			require("mason-lspconfig").setup({
-				ensure_installed = {
-					"lua_ls",
-					"ts_ls",
-					-- "csharp_ls",
-					-- "omnisharp",
-				},
-			})
-		end,
-	},
-	{
-		"neovim/nvim-lspconfig",
-		config = function()
-			vim.diagnostic.config({
-				virtual_text = false,
-				signs = false,
-				underline = { severity = vim.diagnostic.severity.ERROR },
-				update_in_insert = false,
-				severity_sort = true,
-			})
-			local lspconfig = require("lspconfig")
-			local nvlsp = require("cmp_nvim_lsp")
-			lspconfig.lua_ls.setup({
-				capabilities = nvlsp.default_capabilities(),
-			})
-			lspconfig.ts_ls.setup({
-				capabilities = nvlsp.default_capabilities(),
-			})
+    {
+        "williamboman/mason.nvim",
+        opts = {
+            ui = { border = "rounded" }
+        },
+        config = function()
+            require("mason").setup({
+                registries = {
+                    "github:mason-org/mason-registry",
+                    "github:Crashdummyy/mason-registry",
+                },
+            })
+        end,
+    },
+    { "simrat39/symbols-outline.nvim" },
+    { "hrsh7th/cmp-nvim-lsp" },
+    {
+        "williamboman/mason-lspconfig.nvim",
+        config = function()
+            require("mason-lspconfig").setup({
+                ensure_installed = {
+                    "lua_ls",
+                    "ts_ls",
+                    --                    "roslyn",
+                },
+            })
+        end,
+    },
+    {
+        "seblyng/roslyn.nvim",
+        ---@module 'roslyn.config'
+        ---@type RoslynNvimConfig
+        ft = "cs",
+        config = function(_, opts)
+            require("roslyn").setup(opts)
+        end,
+    },
+    {
+        "neovim/nvim-lspconfig",
+        config = function()
+            vim.diagnostic.config({
+                virtual_text = false,
+                signs = true,
+                underline = { severity = vim.diagnostic.severity.ERROR },
+                update_in_insert = true,
+                severity_sort = true,
+            })
+            nvlsp = require("cmp_nvim_lsp")
+            vim.lsp.config("lua_ls", {
+                capabilities = nvlsp.default_capabilities(),
+            })
+            vim.lsp.config("ts_ls", {
+                capabilities = nvlsp.default_capabilities(),
+            })
 
-			lspconfig.omnisharp.setup({
-				cmd = { "OmniSharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
-				enable_roslyn_analyzers = true,
-				organize_imports_on_format = true,
-				enable_import_completion = true,
-				enable_ms_build_load_projects_on_demand = false,
-				root_dir = lspconfig.util.root_pattern("*.csproj", "*.sln"),
-				settings = {
-					RoslynExtensionsOptions = {
-						enableDecompilationSupport = true,
-						enableImportCompletion = true,
-						enableAnalyzersSupport = true,
-						organizeImportsOnFormat = true,
-					},
-					MsBuild = {
-						UseLegacySdkResolver = false,
-					},
-				},
-				handlers = {
-					["textDocument/definition"] = require("omnisharp_extended").definition_handler,
-					["textDocument/typeDefinition"] = require("omnisharp_extended").type_definition_handler,
-					["textDocument/references"] = require("omnisharp_extended").references_handler,
-					["textDocument/implementation"] = require("omnisharp_extended").implementation_handler,
-				},
-				capabilities = nvlsp.default_capabilities(),
-			})
+            vim.lsp.config("roslyn", {
+                on_attach = function()
+                end,
+                settings = {
+                    ["csharp|inlay_hints"] = {
+                        csharp_enable_inlay_hints_for_implicit_object_creation = true,
+                        csharp_enable_inlay_hints_for_implicit_variable_types = true,
+                    },
+                    ["csharp|code_lens"] = {
+                        dotnet_enable_references_code_lens = true,
+                        dotnet_enable_tests_code_lens = true,
+                    },
+                    ["csharp|background_analysis"] = {
+                        dotnet_analyzer_diagnostics_scope = "fullSolution",
+                        dotnet_compiler_diagnostics_scope = "fullSolution",
+                    },
+                    ["csharp|completion"] = {
+                        dotnet_show_completion_items_from_unimported_namespaces = true,
+                        dotnet_show_name_completion_suggestions = true,
+                    },
+                },
+            })
 
-			-- vim.keymap.set("i", "<C-S>", vim.lsp.buf.signature_help, { desc = "Get Overloads" })
-
-			vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show Hover" })
-			vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Actions" })
-			vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP Rename" })
-			vim.keymap.set(
-				"n",
-				"gu",
-				"<cmd>lua require('omnisharp_extended').telescope_lsp_references()<CR>",
-				{ desc = "Find References" }
-			)
-			vim.keymap.set(
-				"n",
-				"gd",
-				"<cmd>lua require('omnisharp_extended').telescope_lsp_definition()<CR>",
-				{ desc = "Go To Definitions" }
-			)
-			vim.keymap.set(
-				"n",
-				"gi",
-				"<cmd>lua require('omnisharp_extended').telescope_lsp_implementation()<CR>",
-				{ desc = "Go To imlementations" }
-			)
-			vim.keymap.set(
-				"n",
-				"<leader>D",
-				"<cmd>lua require('omnisharp_extended').lsp_type_definition()<CR>",
-				{ desc = "Go To Type Definitions" }
-			)
-		end,
-	},
-	{
-		"ray-x/lsp_signature.nvim",
-		enabled = true,
-		event = "InsertEnter",
-		opts = {
-			bind = true,
-			floating_window = true,
-			hint_enable = true,
-			handler_opts = {
-				border = "rounded",
-			},
-			toggle_key = "<C-k>", -- toggle signature help
-			max_height = 15,
-			max_width = 80,
-		},
-	},
+            vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show Hover" })
+            vim.keymap.set("n", "ca", vim.lsp.buf.code_action, { desc = "Code Actions" })
+            vim.keymap.set("n", "rn", vim.lsp.buf.rename, { desc = "LSP Rename" })
+            vim.keymap.set("n", "gu", vim.lsp.buf.references, { desc = "Find References" })
+            vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go To Definitions" })
+            vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Go To imlementations" })
+            -- vim.keymap.set("n", "<leader>gi", function ()
+            --     vim.cmd("vsplit")
+            --     vim.lsp.buf.implementation()
+            -- end , { desc = "Go To imlementations in vsplit" })
+            vim.keymap.set("n", "di", vim.diagnostic.setqflist, { desc = "Show all diagnostics" })
+            vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, { desc = "Format buffer" })
+        end,
+    },
+    {
+        "ray-x/lsp_signature.nvim",
+        enabled = true,
+        event = "InsertEnter",
+        opts = {
+            bind = true,
+            floating_window = true,
+            hint_enable = true,
+            handler_opts = {
+                border = "rounded",
+            },
+            toggle_key = "<C-k>", -- toggle signature help
+            max_height = 15,
+            max_width = 80,
+        },
+    },
 }

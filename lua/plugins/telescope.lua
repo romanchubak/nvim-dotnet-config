@@ -1,8 +1,9 @@
 return {
     {
         "nvim-telescope/telescope.nvim",
-        tag = "0.1.8",
-        dependencies = { "nvim-lua/plenary.nvim" },
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+        },
         config = function()
             require("telescope").setup({
                 defaults = {
@@ -36,12 +37,19 @@ return {
             vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
             vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
             vim.keymap.set("n", "<leader>km", "<cmd>Telescope keymaps<CR>", { desc = "Telescope: Show keymaps" })
+            vim.keymap.set("n", "<leader>gi", function()
+                require('telescope.builtin').lsp_definitions({ jump_type = 'vsplit' })
+            end, { desc = "Go To imlementations in vsplit" })
         end,
     },
     {
         "nvim-telescope/telescope-ui-select.nvim",
         config = function()
             require("telescope").setup({
+                pickers = {
+                    find_files = { theme = "ivy" },
+                    buffers = { theme = "ivy" },
+                },
                 extensions = {
                     ["ui-select"] = {
                         require("telescope.themes").get_dropdown({}),

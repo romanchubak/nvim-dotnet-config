@@ -29,16 +29,18 @@ local search_nuget = function()
                         end)
                         return
                     end
-
-                    local packages = decoded.searchResult[1].packages
+                    -- vim.notify(vim.inspect(decoded), vim.log.levels.INFO)
 
                     local entries = {}
-                    for _, pkg in ipairs(packages) do
-                        -- Format for display
-                        local line =
-                            string.format("%s - %s - %d downloads", pkg.id, pkg.latestVersion, pkg.totalDownloads)
-                        print(line)
-                        table.insert(entries, { line = line, id = pkg.id })
+                    for _, searchResult in ipairs(decoded.searchResult) do
+                        local packages = searchResult.packages
+
+                        for _, pkg in ipairs(packages) do
+                            -- Format for display
+                            local line =
+                                string.format("%s - %s - %d downloads", pkg.id, pkg.latestVersion, pkg.totalDownloads)
+                            table.insert(entries, { line = line, id = pkg.id })
+                        end
                     end
 
                     -- Open Telescope picker
@@ -51,7 +53,7 @@ local search_nuget = function()
                                     entry_maker = function(entry)
                                         return {
                                             value = entry,
-                                            display = entry.line, -- what is shown in the Telescope UI
+                                            display = entry.line,         -- what is shown in the Telescope UI
                                             ordinal = entry.line:lower(), -- used for fuzzy matching
                                         }
                                     end,
@@ -62,7 +64,6 @@ local search_nuget = function()
                                         actions.close(prompt_bufnr)
                                         local selection = action_state.get_selected_entry()
                                         local pkg_id = selection.value.id
-                                        print(pkg_id)
                                         local constants = require("core.constants")
                                         local project = vim.fn.getreg(constants.ProjectRegister)
 

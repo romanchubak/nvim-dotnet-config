@@ -4,6 +4,13 @@
 
 ---
 
+
+## 0.1 Need to install
+```1) c or c++ compiler (for treesitter)
+        windows -> via Visual Studio Installer -> Desktop development with C++)
+```
+
+---
 ## 1. Встановлення Scoop
 
 ```powershell

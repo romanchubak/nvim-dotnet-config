@@ -1,0 +1,9 @@
+dotnet new console -n AppName -f net8.0
+dotnet new class -n ClassName // add new class for project
+dotnet sln add ./Cricut.Braze.MatureContentEmail.Worker
+
+dotnet new xunit
+
+
+dotnet reference add .\Cricut.Braze.MatureContentEmail.Worker\Cricut.Braze.MatureContentEmail.Worker.csproj --project .\Cricut.Braze.MatureContent.Worker.
+Tests\Cricut.Braze.MatureContent.Worker.Tests.csproj                                                                                                        
