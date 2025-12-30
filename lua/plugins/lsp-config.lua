@@ -47,6 +47,14 @@ return {
 				float = {
 					border = "rounded", -- "single" | "double" | "rounded" | "solid" | "shadow"
 				},
+				signs = {
+					text = {
+						[vim.diagnostic.severity.ERROR] = " ",
+						[vim.diagnostic.severity.WARN]  = " ",
+						[vim.diagnostic.severity.INFO]  = " ",
+						[vim.diagnostic.severity.HINT]  = "󰌵 ",
+					},
+				},
 			})
 			nvlsp = require("cmp_nvim_lsp")
 			vim.lsp.config("lua_ls", {
